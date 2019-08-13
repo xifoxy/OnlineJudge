@@ -24,3 +24,5 @@ int foo(int n, int r){
     if(ret) return ret;
     return ret = foo(n - 1, r - 1) + foo(n - 1, r);
 }
+
+// 난 순열과 조합이 정말 싫다...

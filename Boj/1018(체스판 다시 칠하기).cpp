@@ -24,3 +24,6 @@ int main() {
 	}
 	printf("%d\n", ans);
 }
+
+// 설명(Brute Force)
+// 주어진 배열에서 8*8만큼씩 전부다 탐색하면 된다.
