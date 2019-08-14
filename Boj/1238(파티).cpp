@@ -12,6 +12,7 @@ struct cmp {
 
 vector<P> adj[MAX_V];
 
+// ë‹¤ìµìŠ¤íŠ¸ë¼
 int dijk(int start, int end) {
 	priority_queue<P, vector<P>, cmp> PQ;
 	bool visit[MAX_V]{0,};
@@ -27,6 +28,7 @@ int dijk(int start, int end) {
 			cur = PQ.top().vertex;
 			PQ.pop();
 		} while(!PQ.empty() && visit[cur]);
+
 		if(visit[cur] || visit[end]) break;
 		visit[cur] = true;
 
@@ -48,23 +50,19 @@ int main() {
 	for(int i = 0; i < m; ++i) {
 		int u, v, cost;
 		scanf("%d%d%d", &u, &v, &cost);
+
+		// ë¬¸ì œì˜ ì„¤ëª…ì— ë‚˜ì™€ ìˆë“¯, ë‹¨ë°©í–¥ ê·¸ë˜í”„ ì´ë‹¤.
 		adj[u].push_back({v,cost});
 	}
 
 	int ans = 0;
 	for(int i = 1; i <= n; ++i) {
+		// ë„ì°©ì§€ì ì— ì‚¬ëŠ” í•™ìƒì€ íƒìƒ‰í•  í•„ìš”ê°€ ì—†ë‹¤.
 		if(i == end) continue;
 		ans = max(ans, dijk(i, end) + dijk(end, i));
 	}
 	printf("%d\n", ans);
 }
 
-//#´ÙÀÍ½ºÆ®¶ó(Dijkstra's)
-
-//1~N¹ø ¸¶À»±îÁö ÆÄÆ¼°¡ ¿­¸®´Â X¹ø ¸¶À»¿¡ ±îÁöÀÇ ÃÖ´Ü°Å¸®¿Í
-//X¹ø ¸¶À»¿¡ ºÎÅÍ 1~N±îÁöÀÇ ÃÖ´Ü°Å¸®¸¦ ´Ù ±¸ÇÑ´Ù.
-//µÎ°³ÀÇ ÇÕÀÌ ÃÖ´ë°¡ µÇ´Â°ÍÀ» ¹İÈ¯ÇÏ¸é µÈ´Ù.
-
-//dijkÇÔ¼ö¿¡ ÁßÁö Á¶°Ç¿¡ 
-//if(visit[cur] || visit[end]) break;
-//¿©±â¼­ endÁ¶°ÇÀ» Ãß°¡ÇÏ¸é 68ms°¡ ³ª¿À°í Ãß°¡ ÇÏÁö ¾ÊÀ¸¸é 176ms°¡ ³ª¿Â´Ù.
+// ì„¤ëª…(Dijkstra's)
+// ì˜¤ê³ ê°€ëŠ” ê±°ë¦¬ê°€ ìµœëŒ€ì¸ ê°’ì„ êµ¬í•´ì•¼ í•˜ê¸° ë•Œë¬¸ì—, ëª¨ë“  ë§ˆì„ì—ì„œ ë„ì°©ë§ˆì„ê¹Œì§€ íƒìƒ‰í•´ì•¼ í•œë‹¤.
