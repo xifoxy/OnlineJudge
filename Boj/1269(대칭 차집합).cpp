@@ -19,8 +19,8 @@ int main() {
 	printf("%d\n", ans);
 }
 
-// ì„¤ëª…
-// ì‚¬ì‹¤ ì´ ë¬¸ì œëŠ” Binary Searchë¥¼ ì¨ë„ ë˜ê³  Priority Queueë¥¼ ì¨ë„ ëœë‹¤.
-// ê·¸ëŸ°ë° êµ¬í˜„í•˜ê¸° ê·€ì°®ìœ¼ë‹ˆê¹Œ ê·¸ëƒ¥ STLì—ì„œ ì œê³µí•˜ëŠ” BSTë¥¼ ì‚¬ìš©í•˜ìž.
-// ë‘ ì§‘í•©ì˜ ë°°ì—´ì˜ ì›ì†Œ ê°¯ìˆ˜ë¥¼ ë‹¤ ë”í•œ ê°’ì—ì„œ
-// ì¤‘ë³µë˜ëŠ” ê°’ì´ ì¡´ìž¬í•œë‹¤ë©´ 2ê°œì”© ë¹¼ë©´ ë‹µì´ ëœë‹¤.
+// ¼³¸í
+// »ç½Ç ÀÌ ¹®Á¦´Â Binary Search¸¦ ½áµµ µÇ°í Priority Queue¸¦ ½áµµ µÈ´Ù.
+// ±×·±µ¥ ±¸ÇöÇÏ±â ±ÍÂúÀ¸´Ï±î ±×³É STL¿¡¼­ Á¦°øÇÏ´Â BST¸¦ »ç¿ëÇÏÀÚ.
+// µÎ ÁýÇÕÀÇ ¹è¿­ÀÇ ¿ø¼Ò °¹¼ö¸¦ ´Ù ´õÇÑ °ª¿¡¼­
+// Áßº¹µÇ´Â °ªÀÌ Á¸ÀçÇÑ´Ù¸é 2°³¾¿ »©¸é ´äÀÌ µÈ´Ù.

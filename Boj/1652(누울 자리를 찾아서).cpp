@@ -19,5 +19,5 @@ int main() {
 	printf("%d %d\n", col_cnt, row_cnt);
 }
 
-// ì„¤ëª…(Brute Force)
-// ê° í–‰ê³¼ ì—´ì„ ì „ë¶€ íƒìƒ‰í•´ì„œ ëˆ„ìš¸ ìžë¦¬ê°€ ì¡´ìž¬í•œë‹¤ë©´ ê°±ì‹ í•˜ìž.
+// ¼³¸í(Brute Force)
+// °¢ Çà°ú ¿­À» ÀüºÎ Å½»öÇØ¼­ ´©¿ï ÀÚ¸®°¡ Á¸ÀçÇÑ´Ù¸é °»½ÅÇÏÀÚ.

@@ -43,6 +43,6 @@ int main() {
 	bfs(st, vec);
 }
 
-// ì„¤ëª…(BFS/DFS)
-// ê·¸ëž˜í”„ì˜ ì„¤ê³„ ë¶€ë¶„ê³¼ visitë°°ì—´ì„ ì´ìš©í•˜ëŠ” ì´ìœ ë§Œ ì•Œë©´ ëœë‹¤.
-// ë‚˜ë¨¸ì§€ëŠ” BFSì™€ DFSì˜ ë™ìž‘ ì›ë¦¬ì— ëŒ€í•œ ì´í•´ì´ê¸° ë•Œë¬¸ì— ìƒëžµ.
+// ¼³¸í(BFS/DFS)
+// ±×·¡ÇÁÀÇ ¼³°è ºÎºÐ°ú visit¹è¿­À» ÀÌ¿ëÇÏ´Â ÀÌÀ¯¸¸ ¾Ë¸é µÈ´Ù.
+// ³ª¸ÓÁö´Â BFS¿Í DFSÀÇ µ¿ÀÛ ¿ø¸®¿¡ ´ëÇÑ ÀÌÇØÀÌ±â ¶§¹®¿¡ »ý·«.

@@ -58,8 +58,8 @@ int main() {
 	else printf("%d\n", sum);
 }
 
-// ì„¤ëª…(Dijkstra's)
-// ë¬¸ì œì—ì„œ ìš”êµ¬í•˜ëŠ”ê²ƒì€ ìµœë‹¨ ê²½ë¡œë¥¼ êµ¬í•˜ë˜, Aì ê³¼ Bì ì„ ê±°ì³ê°€ê²Œ í•˜ë¼ê³  í•œë‹¤.
-// Start->Endë¡œ ê°€ëŠ” ê³¼ì •ì—ì„œ ABë¥¼ ê±°ì³ ê°€ê²Œ í•˜ëŠ” ë°©ë²•ì€
-// Start->A->B->End ê·¸ë¦¬ê³  Start->B->A->Endì´ë‹¤.
-// ë‘ê°œì˜ ê²½ë¡œë¥¼ ê²€ìƒ‰í•´ì„œ ìµœë‹¨ ê²½ë¡œë¥¼ êµ¬í•˜ë©´ ëœë‹¤.
+// ¼³¸í(Dijkstra's)
+// ¹®Á¦¿¡¼­ ¿ä±¸ÇÏ´Â°ÍÀº ÃÖ´Ü °æ·Î¸¦ ±¸ÇÏµÇ, AÁ¡°ú BÁ¡À» °ÅÃÄ°¡°Ô ÇÏ¶ó°í ÇÑ´Ù.
+// Start->End·Î °¡´Â °úÁ¤¿¡¼­ AB¸¦ °ÅÃÄ °¡°Ô ÇÏ´Â ¹æ¹ýÀº
+// Start->A->B->End ±×¸®°í Start->B->A->EndÀÌ´Ù.
+// µÎ°³ÀÇ °æ·Î¸¦ °Ë»öÇØ¼­ ÃÖ´Ü °æ·Î¸¦ ±¸ÇÏ¸é µÈ´Ù.

@@ -6,4 +6,4 @@ int main() {
 	cout << min(min(x, w - x), min(y, h - y)) << '\n';
 }
 
-// ê·¸ëƒ¥ ìˆ˜í•™
+// ¼öÇĞ

@@ -11,16 +11,16 @@ int main() {
 	while(l <= r) {
 		int mid = (l + r) / 2;
 
-        // ì˜¤ë¥¸ë‹¤ë©´ ë” ìž‘ì€ ìˆ«ìžë¥¼ ì°¾ëŠ”ë‹¤.
+        // ¿À¸¥´Ù¸é ´õ ÀÛÀº ¼ýÀÚ¸¦ Ã£´Â´Ù.
 		if(win_rate < avg(x + mid, y + mid)) {
 			ans = mid;
 			r = mid - 1;
 		} else l = mid + 1;
-        // ì˜¤ë¥´ì§€ ì•ŠëŠ” ë‹¤ë©´ ë” í° ìˆ«ìžë¥¼ ì°¾ëŠ”ë‹¤.
+        // ¿À¸£Áö ¾Ê´Â ´Ù¸é ´õ Å« ¼ýÀÚ¸¦ Ã£´Â´Ù.
 	}
 	printf("%d\n", ans > M ? -1 : ans);
 }
 
-// ì„¤ëª…(Binary Search)
-// ì´ë¶„íƒìƒ‰ìœ¼ë¡œ ë¬´ë‚œí•˜ê²Œ í’€ë¦¬ëŠ” ë¬¸ì œì´ë‹¤.
-// ë²”ìœ„ë¥¼ ë°˜í† ë§‰ì”© ì¤„ì—¬ê°€ë©´ O(logN)ì´ë©´ ëœë‹¤.
+// ¼³¸í(Binary Search)
+// ÀÌºÐÅ½»öÀ¸·Î ¹«³­ÇÏ°Ô Ç®¸®´Â ¹®Á¦ÀÌ´Ù.
+// ¹üÀ§¸¦ ¹ÝÅä¸·¾¿ ÁÙ¿©°¡¸é O(logN)ÀÌ¸é µÈ´Ù.
