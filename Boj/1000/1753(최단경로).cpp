@@ -52,9 +52,9 @@ int main() {
 	}
 }
 
-// ì„¤ëª…(Dijkstra's)
-// ë‹¤ìµìŠ¤íŠ¸ë¼ì˜ ê°€ìž¥ ê¸°ë³¸ ë¬¸ì œì´ë‹¤.
-// ë‹¤ìµìŠ¤íŠ¸ë¼ëŠ” ìš°ì„ ìˆœìœ„íì™€ whileë¬¸ ë‚´ì˜ do whileë¬¸ì´ ì œë²• í¥ë¯¸ë¡­ë‹¤.
-// ì´ ì´ ë‘ë¶€ë¶„ì´ íì— O(V^2)ì˜ ë°ì´í„°ê°€ ë“¤ì–´ê°€ë”ë¼ë„
+// ¼³¸í(Dijkstra's)
+// ´ÙÀÍ½ºÆ®¶óÀÇ °¡Àå ±âº» ¹®Á¦ÀÌ´Ù.
+// ´ÙÀÍ½ºÆ®¶ó´Â ¿ì¼±¼øÀ§Å¥¿Í while¹® ³»ÀÇ do while¹®ÀÌ Á¦¹ý Èï¹Ì·Ó´Ù.
+// ÀÌ ÀÌ µÎºÎºÐÀÌ Å¥¿¡ O(V^2)ÀÇ µ¥ÀÌÅÍ°¡ µé¾î°¡´õ¶óµµ
 // O(log(V^2)) => 2logV => logV
-// ì´ ê°„ì„  E -> O(ElogV)ë¼ëŠ” ë§ˆë²•ì„ ì“´ë‹¤.
+// ÃÑ °£¼± E -> O(ElogV)¶ó´Â ¸¶¹ýÀ» ¾´´Ù.

@@ -42,5 +42,5 @@ int main() {
 			printf("%d\n", i);
 }
 
-//설명
-//생략(종만북 소수구하기 파트에서 설명)
+// 설명(Sieve of Eratosthenes)
+// bitdp로 풀었다.

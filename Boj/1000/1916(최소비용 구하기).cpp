@@ -57,7 +57,5 @@ int main() {
 	printf("%d\n", dist[end]);
 }
 
-//#다익스트라(Dijkstra's)
-
+// 설명(Dijkstra's)
 //1753최단 경로와 똑같은 문제다.
-//다익스트라 개념에 대해 숙지 및 복습으로 풀면된다.
