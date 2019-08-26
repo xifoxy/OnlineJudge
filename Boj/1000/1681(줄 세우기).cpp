@@ -15,5 +15,5 @@ int main() {
 	printf("%d\n", ans - 1);
 }
 
-// ì„¤ëª…(Brute Force)
-// Nì˜ ë²”ìœ„ê°€ ìž‘ë‹¤. ê·¸ëŸ¬ë‹ˆ ì „ë¶€ë‹¤ í™•ì¸í•˜ë©´ì„œ Lì´ í¬í•¨ëœ ìˆ«ìžë¥¼ ë°°ì œí•˜ë©´ëœë‹¤.
+// ¼³¸í(Brute Force)
+// NÀÇ ¹üÀ§°¡ ÀÛ´Ù. ±×·¯´Ï ÀüºÎ´Ù È®ÀÎÇÏ¸é¼­ LÀÌ Æ÷ÇÔµÈ ¼ýÀÚ¸¦ ¹èÁ¦ÇÏ¸éµÈ´Ù.
