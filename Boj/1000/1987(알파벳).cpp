@@ -29,4 +29,5 @@ int main() {
 	printf("%d\n", ans);
 }
 
-//생략
+// 설명(Brute Force, Next_Permutation)
+// 한번 밟은 알파벳을 다시 밟을 수 없다. 순열을 구하는 방법과 유사하다.

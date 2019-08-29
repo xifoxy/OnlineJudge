@@ -1,3 +1,10 @@
+#define FOR(i,a,b) for(int i = (a); i < (b); ++i)
+#define REP(i,n) FOR(i,0,n)
+#define FORM(i,a,b) for(int i = (a); i > (b); --i)
+#define REPM(i,n) FORM(i,n,0)
+#define FORS(i,a,b) for(int i = (a); (b{i}); ++i)
+#define REPS(i,s) FORS(i,0,s)
+
 #include <bits/stdc++.h>
 using namespace std;
 const int MAX = 1e4 + 1;
@@ -36,52 +43,54 @@ int main() {
 	printf("%d\n", dist[ans]);
 }
 
-//ì„¤ëª…
-//ì˜ˆì œë§Œ ë³´ê³  íŠ¸ë¦¬ì˜ êµ¬ì¡°ê°€ ë°”ì´ë„ˆë¦¬ íŠ¸ë¦¬ë¼ëŠ” ì „ì œë¡œ í’€ì–´ì„œ í‹€ë ¸ë‹¤.
-//ë‹¤ì‹œ ê³ ë¯¼ì¢€í•˜ë‹¤ê°€ ë¬¸ì œë¥¼ ì ‘ê·¼í•œ ë°©ì‹ì€ ì§€ë¦„ì˜ ê¸¸ì´ê°€ ë£¨íŠ¸ë¥¼ í¬í•¨í•˜ì§€ ì•Šì„ìˆ˜ ìžˆë‹¤ëŠ”
-//ì˜ˆì œë¥¼ ë³´ê³  ë£¨íŠ¸ì—ì„œ ê°€ìž¥ë¨¼ ë…¸ë“œ X
-//Xë…¸ë“œì—ì„œ ê°€ìž¥ ë¨¼ ë…¸ë“œ Yë¥¼ êµ¬í•˜ëŠ” ë°©ë²•ìœ¼ë¡œ í’€ì—ˆë‹¤.
+// ¼³¸í
+// ¿¹Á¦¸¸ º¸°í Æ®¸®ÀÇ ±¸Á¶°¡ ¹ÙÀÌ³Ê¸® Æ®¸®¶ó´Â ÀüÁ¦·Î Ç®¾î¼­ Æ²·È´Ù.
+// ´Ù½Ã °í¹ÎÁ»ÇÏ´Ù°¡ ¹®Á¦¸¦ Á¢±ÙÇÑ ¹æ½ÄÀº Áö¸§ÀÇ ±æÀÌ°¡ ·çÆ®¸¦ Æ÷ÇÔÇÏÁö ¾ÊÀ» ¼ö ÀÖ´Ù´Â
+// ¿¹Á¦¸¦ º¸°í ·çÆ®¿¡¼­ °¡Àå¸Õ ³ëµå X
+// X³ëµå¿¡¼­ °¡Àå ¸Õ ³ëµå Y¸¦ ±¸ÇÏ´Â ¹æ¹ýÀ¸·Î Ç®¾ú´Ù.
 
-//ê³¼ê±°ì˜ ì†ŒìŠ¤ë„ ì‚´íŽ´ë´ì•¼ê² ë‹¤.
-//ì§€ê¸ˆì‚´íŽ´ë³´ë‹ˆ ì°¸ ë‚œìž¡í•˜ê²Œë„ í’€ì—ˆë‹¤.
-//ë£¨íŠ¸ì— ì—°ê²°ëœ ì„œë¸ŒíŠ¸ë¦¬ë“¤ì˜ ìµœëŒ€ê¸¸ì´ë¥¼ ì¼ì¼ì´ êµ¬í•œê²ƒê³¼,
-//ì„œë¸ŒíŠ¸ë¦¬ ë‚´ì—ì„œì˜ ìµœëŒ€ê¸¸ì´ë¥¼ êµ¬í•´ ê°’ì„ ë¹„êµí•˜ëŠ”ë°©ë²•ì´ë‹¤.
-#include <bits/stdc++.h>
-using namespace std;
-vector<vector<int> > adj, weight;
-vector<int> sum, sum2;
-int n, a, b, c, M;
-int post(int cur, int wei) {
-	int ret = 0;
-	if(adj[cur].empty()) return wei;
-	REP(i, adj[cur].size()) {
-		int t = ret;
-		ret += post(adj[cur][i], weight[cur][i]);
-		sum.push_back(ret);
-		ret = max(t, ret - t);
-	}
-	return ret + wei;
-}
-int main() {
-	scanf("%d", &n);
-	adj.resize(n + 2);
-	weight.resize(n + 2);
-	REP(i, n - 1) {
-		scanf("%d%d%d", &a, &b, &c);
-		adj[a].push_back(b);
-		weight[a].push_back(c);
-	}
-	REP(i, adj[1].size()) {
-		sum2.push_back(post(adj[1][i], weight[1][i]));
-	}
-	sort(sum2.begin(), sum2.end());
-	sort(sum.begin(), sum.end());
-	if(sum2.size() > 1) {
-		M = sum2[sum2.size() - 1] + sum2[sum2.size() - 2];
-	} else {
-		M = sum2.back();
-	}
-	if(!sum.empty()) 
-		M = max(sum.back(), M);
-	printf("%d\n", M);
-}
+// °ú°ÅÀÇ ¼Ò½ºµµ »ìÆìºÁ¾ß°Ú´Ù.
+// Áö±Ý»ìÆìº¸´Ï Âü ³­ÀâÇÏ°Ôµµ Ç®¾ú´Ù.
+// ·çÆ®¿¡ ¿¬°áµÈ ¼­ºêÆ®¸®µéÀÇ ÃÖ´ë±æÀÌ¸¦ ÀÏÀÏÀÌ ±¸ÇÑ°Í°ú,
+// ¼­ºêÆ®¸® ³»¿¡¼­ÀÇ ÃÖ´ë±æÀÌ¸¦ ±¸ÇØ °ªÀ» ºñ±³ÇÏ´Â¹æ¹ýÀÌ´Ù.
+
+
+// #include <bits/stdc++.h>
+// using namespace std;
+// vector<vector<int> > adj, weight;
+// vector<int> sum, sum2;
+// int n, a, b, c, M;
+// int post(int cur, int wei) {
+// 	int ret = 0;
+// 	if(adj[cur].empty()) return wei;
+// 	REP(i, adj[cur].size()) {
+// 		int t = ret;
+// 		ret += post(adj[cur][i], weight[cur][i]);
+// 		sum.push_back(ret);
+// 		ret = max(t, ret - t);
+// 	}
+// 	return ret + wei;
+// }
+// int main() {
+// 	scanf("%d", &n);
+// 	adj.resize(n + 2);
+// 	weight.resize(n + 2);
+// 	REP(i, n - 1) {
+// 		scanf("%d%d%d", &a, &b, &c);
+// 		adj[a].push_back(b);
+// 		weight[a].push_back(c);
+// 	}
+// 	REP(i, adj[1].size()) {
+// 		sum2.push_back(post(adj[1][i], weight[1][i]));
+// 	}
+// 	sort(sum2.begin(), sum2.end());
+// 	sort(sum.begin(), sum.end());
+// 	if(sum2.size() > 1) {
+// 		M = sum2[sum2.size() - 1] + sum2[sum2.size() - 2];
+// 	} else {
+// 		M = sum2.back();
+// 	}
+// 	if(!sum.empty()) 
+// 		M = max(sum.back(), M);
+// 	printf("%d\n", M);
+// }

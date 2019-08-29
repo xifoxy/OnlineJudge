@@ -33,4 +33,5 @@ int main() {
 	else cout << -1;
 }
 
-//에라토스테네스 비트로 구현하기
+// 설명(Sieve of Eratosthenes)
+// BitDP

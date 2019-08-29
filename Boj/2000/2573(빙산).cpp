@@ -9,12 +9,12 @@ int dx[]{1,-1,0,0}, dy[]{0,0,1,-1};
 int n, m;
 bool visit[M][M];
 
-//ì•ˆì „ì§€ì—­
+// ¾ÈÀüÁö¿ª È®ÀÎ
 bool safe(int x, int y){
     return x >= 0 && y >= 0 && x < n && y < m;
 }
 
-//ë¹™ì‚°í¬ê¸° ì¹´ìš´íŒ…
+// ºù»êÅ©±â Ä«¿îÆÃ
 int land_divide_check(P temp){
     queue<P> Q;
     Q.push(temp);
@@ -41,12 +41,12 @@ int land_divide_check(P temp){
 int year;
 int bfs(queue<P> &Q){
     while(!Q.empty()){
-        // í•œì‚¬ì´í´ ëŒë•Œë§ˆë‹¤ ì²´í¬ í•´ì•¼ í•˜ê¸° ë•Œë¬¸ì—
-        // visitë°°ì—´ì„ ì´ˆê¸°í™” í•´ì£¼ê³ , í˜„ìž¬ ì‹œì ì˜ landë°°ì—´ì„ temp(prev)ë°°ì—´ì— ë³µì‚¬í•œë‹¤.
+        // ÇÑ»çÀÌÅ¬ µ¹¶§¸¶´Ù Ã¼Å© ÇØ¾ß ÇÏ±â ¶§¹®¿¡
+        // visit¹è¿­À» ÃÊ±âÈ­ ÇØÁÖ°í, ÇöÀç ½ÃÁ¡ÀÇ land¹è¿­À» temp(prev)¹è¿­¿¡ º¹»çÇÑ´Ù.
         memset(visit, false, sizeof(visit));
         memcpy(temp, land, sizeof(land));
 
-        // ë¹™ì‚°ì˜ ì¢Œí‘œ í•˜ë‚˜ë¡œ flood fillì„ ì§„í–‰í–ˆì„ì‹œ, íì˜ í¬ê¸°ì™€ ë‹¤ë¥´ë‹¤ë©´ ë¹™ì‚°ì€ ë‚˜ë‰œ ê²ƒì´ë‹¤.
+        // ºù»êÀÇ ÁÂÇ¥ ÇÏ³ª·Î flood fillÀ» ÁøÇàÇßÀ»½Ã, Å¥ÀÇ Å©±â¿Í ´Ù¸£´Ù¸é ºù»êÀº ³ª´¶ °ÍÀÌ´Ù.
         int sz = land_divide_check(Q.front());
         if(sz != Q.size()) break;
 
@@ -58,20 +58,20 @@ int bfs(queue<P> &Q){
                 int nx = currnet.x + dx[direction];
                 int ny = currnet.y + dy[direction];
 
-                // tempë°°ì—´ì€ prevë°°ì—´ì´ë‹¤. ì´ì „ ì •ë³´ë¥¼ ê°€ì§€ê³  ê°±ì‹ í•´ì•¼ëœë‹¤. ì„¤ëª… ì°¸ì¡°
+                // temp¹è¿­Àº prev¹è¿­ÀÌ´Ù. ÀÌÀü Á¤º¸¸¦ °¡Áö°í °»½ÅÇØ¾ßµÈ´Ù. ¼³¸í ÂüÁ¶
                 if(safe(nx,ny) && temp[nx][ny] == 0 && land[currnet.x][currnet.y]){
                     land[currnet.x][currnet.y]--;
                 }
             }
-            // ì¸ì ‘ê³µê°„ì„ íƒìƒ‰í•´ë„ ë¹™ì‚°ì´ ì‚´ì•„ìžˆìœ¼ë©´ ë‹¤ì‹œ íì— ì‚½ìž…
+            // ÀÎÁ¢°ø°£À» Å½»öÇØµµ ºù»êÀÌ »ì¾ÆÀÖÀ¸¸é ´Ù½Ã Å¥¿¡ »ðÀÔ
             if(land[currnet.x][currnet.y])
                 Q.push(currnet);
         }
         year++;
     }
 
-    // íì— ë“¤ì–´ìžˆëŠ” ë¹™ì‚° ì¢Œí‘œê°€ ì—†ë‹¤ë©´? ë¹™ì‚°ì€ ë‹¤ ë…¹ì•˜ê¸°ì— 0ì„ ë°˜í™˜í•˜ê³ 
-    // íì— ì •ë³´ê°€ ë“¤ì–´ ìžˆë‹¤ë©´ ì¹´ìš´íŒ…í•œ ì‹œê°„ì„ ë°˜í™˜í•œë‹¤.
+    // Å¥¿¡ µé¾îÀÖ´Â ºù»ê ÁÂÇ¥°¡ ¾ø´Ù¸é? ºù»êÀº ´Ù ³ì¾Ò±â¿¡ 0À» ¹ÝÈ¯ÇÏ°í
+    // Å¥¿¡ Á¤º¸°¡ µé¾î ÀÖ´Ù¸é Ä«¿îÆÃÇÑ ½Ã°£À» ¹ÝÈ¯ÇÑ´Ù.
     return Q.size() ? year : 0;
 }
 
@@ -91,30 +91,30 @@ int main(){
     printf("%d\n", bfs(Q));
 }
 
-// ì„¤ëª…(BFS, flood fill)
-// ë¹™ì‚°ì˜ ìƒ,í•˜,ì¢Œ,ìš°ë¡œ ì¸ì ‘í•œê³³ì— ë¬¼ì´ ì¡´ìž¬í•œë‹¤ë©´? ì¡´ìž¬í•˜ëŠ” ë°©í–¥ ìˆ˜ ë§Œí¼ ë¹™ì‚°ì´ ë…¹ëŠ”ë‹¤.
-// ë¬¸ì œì—ì„œ ìš”êµ¬í•˜ëŠ” ë‹µì€ ë¹™ì‚°ì´ ë…¹ëŠ” ì¤‘, ë¹™ì‚°ì´ ë‘ ì¡°ê° ì´ìƒìœ¼ë¡œ ë‚˜ë‰˜ëŠ”ì§€ ì²´í¬í•˜ëŠ”ê²ƒ ì´ë‹¤.
-// ë¹™ì‚°ì´ ë‹¤ ë…¹ìœ¼ë©´ 0ì„ ì¶œë ¥í•´ì•¼ í•œë‹¤.
+// ¼³¸í(BFS, flood fill)
+// ºù»êÀÇ »ó,ÇÏ,ÁÂ,¿ì·Î ÀÎÁ¢ÇÑ°÷¿¡ ¹°ÀÌ Á¸ÀçÇÑ´Ù¸é? Á¸ÀçÇÏ´Â ¹æÇâ ¼ö ¸¸Å­ ºù»êÀÌ ³ì´Â´Ù.
+// ¹®Á¦¿¡¼­ ¿ä±¸ÇÏ´Â ´äÀº ºù»êÀÌ ³ì´Â Áß, ºù»êÀÌ µÎ Á¶°¢ ÀÌ»óÀ¸·Î ³ª´µ´ÂÁö Ã¼Å©ÇÏ´Â°Í ÀÌ´Ù.
+// ºù»êÀÌ ´Ù ³ìÀ¸¸é 0À» Ãâ·ÂÇØ¾ß ÇÑ´Ù.
 
-// ë‘ê°€ì§€ì˜ ìž‘ì—…ì´ í•„ìš”í–ˆë‹¤.
-// 1. ë¹™ì‚°ì˜ ì¡°ê°ì´ ë‘ê°œ ì´ìƒìœ¼ë¡œ ë‚˜ë‰˜ì—ˆëŠ”ì§€?
-// 2. ë¹™ì‚° ë…¹ì´ê¸°
+// µÎ°¡ÁöÀÇ ÀÛ¾÷ÀÌ ÇÊ¿äÇß´Ù.
+// 1. ºù»êÀÇ Á¶°¢ÀÌ µÎ°³ ÀÌ»óÀ¸·Î ³ª´µ¾ú´ÂÁö?
+// 2. ºù»ê ³ìÀÌ±â
 
-// ìš°ì„  ì†”ë£¨ì…˜ì˜ íƒˆì¶œì¡°ê±´ì€ ë¹™ì‚°ì´ ë‹¤ ë…¹ëŠ”ë‹¤ or ë¹™ì‚°ì´ ë‘ì¡°ê° ì´ë‹¤. ì´ê¸° ë•Œë¬¸ì—
-// ë¹™ì‚°ì˜ ì •ë³´ê°€ í•„ìš”í•˜ê¸°ì— ê°’ì„ ìž…ë ¥ë°›ì„ë•Œ ë°°ì—´ì—(temp, land ë°°ì—´ì´ 2ê°œì¸ ì´ìœ ?)ì— ìž…ë ¥ë°›ê³ , 
-// ë¬¼ì´ ì•„ë‹Œ ë¹™ì‚°ì˜ ì¢Œí‘œëŠ” queueì— ì¶”ê°€í•œë‹¤.
+// ¿ì¼± ¼Ö·ç¼ÇÀÇ Å»ÃâÁ¶°ÇÀº ºù»êÀÌ ´Ù ³ì´Â´Ù or ºù»êÀÌ µÎÁ¶°¢ ÀÌ´Ù. ÀÌ±â ¶§¹®¿¡
+// ºù»êÀÇ Á¤º¸°¡ ÇÊ¿äÇÏ±â¿¡ °ªÀ» ÀÔ·Â¹ÞÀ»¶§ ¹è¿­¿¡(temp, land ¹è¿­ÀÌ 2°³ÀÎ ÀÌÀ¯?)¿¡ ÀÔ·Â¹Þ°í, 
+// ¹°ÀÌ ¾Æ´Ñ ºù»êÀÇ ÁÂÇ¥´Â queue¿¡ Ãß°¡ÇÑ´Ù.
 
-// ì²˜ìŒ ìž…ë ¥ê°’ì—ì„œ ë¹™ì‚°ì´ ë‘ê°œë¡œ ë“¤ì–´ì˜¬ ìˆ˜ ìžˆë‹¤ëŠ”ê±¸ ê°€ì •í•´ íƒìƒ‰ ì‹œìž‘ì§€ì ì— ë¹™ì‚°ì˜ ë¶„í•  ì—¬ë¶€ë¥¼ ì²´í¬í•œë‹¤.
-// flood fillëœ ë°°ì—´ì˜ í¬ê¸°ì™€, íì— ë‹®ê¸´ ë¹™ì‚°ì˜ ì¢Œí‘œë“¤ì˜ ì‚¬ì´ì¦ˆê°€ ê°™ìœ¼ë©´..
-// ë¹™ì‚°ì˜ ì¸ì ‘í•œ ë¶€ë¶„ë“¤ì„ íƒìƒ‰í•´ê°€ë©´ì„œ ë¹™ì‚°ì„ ì •ë¦¬í•´ì¤€ë‹¤.
-// ì´ ë¹™ì‚°ì„ ë…¹ì´ëŠ” ë¶€ë¶„ì—ì„œ ë°°ì—´ì„ ë‘ê°œ ë¡œ ë§Œë“  ì´ìœ ê°€ ìžˆëŠ”ë°,
+// Ã³À½ ÀÔ·Â°ª¿¡¼­ ºù»êÀÌ µÎ°³·Î µé¾î¿Ã ¼ö ÀÖ´Ù´Â°É °¡Á¤ÇØ Å½»ö ½ÃÀÛÁöÁ¡¿¡ ºù»êÀÇ ºÐÇÒ ¿©ºÎ¸¦ Ã¼Å©ÇÑ´Ù.
+// flood fillµÈ ¹è¿­ÀÇ Å©±â¿Í, Å¥¿¡ ´à±ä ºù»êÀÇ ÁÂÇ¥µéÀÇ »çÀÌÁî°¡ °°À¸¸é..
+// ºù»êÀÇ ÀÎÁ¢ÇÑ ºÎºÐµéÀ» Å½»öÇØ°¡¸é¼­ ºù»êÀ» Á¤¸®ÇØÁØ´Ù.
+// ÀÌ ºù»êÀ» ³ìÀÌ´Â ºÎºÐ¿¡¼­ ¹è¿­À» µÎ°³ ·Î ¸¸µç ÀÌÀ¯°¡ ÀÖ´Âµ¥,
 
-// ë°°ì—´ì„ í•œê°œë¡œ ì§„í–‰í•˜ê²Œ ë˜ë©´,
+// ¹è¿­À» ÇÑ°³·Î ÁøÇàÇÏ°Ô µÇ¸é,
 // ex)
 // 0 0 0 0     0 0 0 0
 // 0 1 5 0 ==> 0 0 5 0
 // 0 0 0 0     0 0 0 0
-// ìœ„ì™€ ê°™ì€ ì‚¬íƒœê°€ ë°œìƒí•  ìˆ˜ ìžˆë‹¤. ê·¸ëž˜ì„œ prevë°°ì—´ ê³¼ ê°™ì€ ê°œë…ìœ¼ë¡œ ë§Œë“ ê²ƒì´ë‹¤.
+// À§¿Í °°Àº »çÅÂ°¡ ¹ß»ýÇÒ ¼ö ÀÖ´Ù. ±×·¡¼­ prev¹è¿­°ú °°Àº °³³äÀ¸·Î ¸¸µç°ÍÀÌ´Ù.
 
-// ë¹™ì‚°ì„ ë…¹ì¼ë•ŒëŠ”
-// ì£¼ì–´ì§„ Inputê°’ì˜ í¬ê¸°ê°€ ìµœëŒ€ 300*300ë¡œ ì œë²• ìž‘ê¸° ë•Œë¬¸ì— íì— ë„£ê³  ë¹¼ê¸°ë¥¼ ë°˜ë³µí–ˆë‹¤.
+// ºù»êÀ» ³ìÀÏ¶§´Â
+// ÁÖ¾îÁø Input°ªÀÇ Å©±â°¡ ÃÖ´ë 300*300·Î Á¦¹ý ÀÛ±â ¶§¹®¿¡ Å¥¿¡ ³Ö°í »©±â¸¦ ¹Ýº¹Çß´Ù.

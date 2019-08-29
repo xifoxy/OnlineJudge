@@ -17,4 +17,4 @@ int main() {
 	cout << ans;
 }
 
-//생략
+// 설명(Sieve of Eratosthenes)

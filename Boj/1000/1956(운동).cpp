@@ -30,6 +30,6 @@ int main() {
 	printf("%d\n", ans >= INF ? -1 : ans);
 }
 
-//componentê°€ í˜•ì„±ë˜ëŠ” ì§€ì ì„ ì°¾ëŠ”ë¬¸ì œì´ë‹¤
-//í”Œë¡œì´ë“œì—ì„  dist[i][i]ì˜ ê°’ì´ ì¡´ìž¬í•œë‹¤ë©´.
-//ì‚¬ì´í´ì´ ì¡´ìž¬í•œë‹¤.
+// ¼³¸í(Floyd-Warshall)
+// ÇÃ·ÎÀÌµå ¿ö¼£¿¡¼­´Â dist[i][i]ÀÇ °ªÀÌ ÃÊ±âÈ­ ÇÑ °ªÀÌ ¾Æ´Ï¶ó¸é »çÀÌÅ¬ÀÌ ÀÖ´Ù°í ÆÇÁ¤ÇÑ´Ù.
+// ÇÃ·ÎÀÌµå ¿ö¼£À» µ¹¸®°í dist[i][i]ÀÇ ÃÖ¼Ú°ªÀ» Ã£¾Æ¼­ Ãâ·ÂÇÏ¸é µÈ´Ù.
