@@ -1,9 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
-string s;
 int main() {
-	cin >> s;
-	cout << s.size();
+	int n;
+	cin >> n;
+	for(int i = 1; i <= n; ++i)
+		cout << i << '\n';
 }
 
 // 말하지 않아도 알아요~

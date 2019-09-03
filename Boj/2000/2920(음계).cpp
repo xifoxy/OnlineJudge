@@ -14,4 +14,4 @@ int main() {
 	else puts("mixed");
 }
 
-//우아하게 짤 생각하지말자
+// AH SAY~ 말하지 않아도 알아요~

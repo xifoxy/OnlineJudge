@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
-string s;
 int main() {
-	cin >> s;
-	cout << s.size();
+	int n;
+	cin >> n;
+	while(n--) cout << n + 1 << '\n';
 }
 
 // 말하지 않아도 알아요~

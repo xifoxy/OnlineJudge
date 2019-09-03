@@ -14,7 +14,7 @@ int main() {
 		idx = (idx + change) % wheel_size;
 		if(wheel[idx] == ch) continue;
 
-        // 알파벳 사용유무 체크와 현재 인덱스의 위치가 비어있는지?
+        // ���ĺ� ������� üũ�� ���� �ε����� ��ġ�� ����ִ���?
 		if(dp[ch - 'A'] || wheel[idx] != '?') ans = false;
 		dp[ch - 'A'] = true;
 		wheel[idx] = ch;
@@ -28,6 +28,6 @@ int main() {
 	} else puts("!");
 }
 
-// 설명(배열, 구현)
-// 짜증나게도 문제 설명을 제대로 읽지 않아서 5번이나 틀렸다.
-// 알파벳이 중복 사용되거나 알파벳이 들어간 자리에 또 들어가게되면 !를 출력해야된다.
+// ����(�迭, ����)
+// ¥�����Ե� ���� ������ ����� ���� �ʾƼ� 5���̳� Ʋ�ȴ�.
+// ���ĺ��� �ߺ� ���ǰų� ���ĺ��� �� �ڸ��� �� ���ԵǸ� !�� ����ؾߵȴ�.

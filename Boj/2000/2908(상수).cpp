@@ -8,4 +8,4 @@ int main() {
 	cout << max(stoi(s), stoi(s1));
 }
 
-//생략
+// AH SAY~ 말하지 않아도 알아요~
