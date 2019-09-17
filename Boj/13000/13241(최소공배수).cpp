@@ -9,4 +9,4 @@ int main(){
 	cout << a * b / gcd(a,b);
 }
 
-// 설명(GCD, LCM)
+// 설명(GCD,LCM)
