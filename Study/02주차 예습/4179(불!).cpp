@@ -54,7 +54,7 @@ int sol(int pos){
             int ny = cur % m + dy[direction];
             int next = nx * m + ny;
             // 불과 지훈이의 이동속도는 똑같기 때문에, 볼이 이동한 거리보다 작은 경우만 갈 수 있다.
-            // 메모배열이 0인지 체크 하는 이유는, 불이 격리 되어 없는 경우를 위해서이다.
+            // 메모배열이 0인지 체크 하는 이유는, 불을 만나지 않는 경우때문이다.
             if(safe(nx,ny) && board[nx][ny] == '.' && (dp[next] > dp[cur] + 1 || !dp[next])){
                 dp[next] = dp[cur] + 1;
                 Q.push(next);
