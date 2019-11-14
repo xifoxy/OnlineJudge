@@ -2,9 +2,13 @@
 using namespace std;
 bool cmpSz(string &a, string &r){
     // A의 길이가 길면 Overflow다.
+
     if(a.size() != r.size()) return a.size() > r.size();
 
     // 각 자릿수를 비교해서 A가 큰게 나오면 Overflow다.
+
+    // A: 12[3]4
+    // B: 12[2]4
     for(int i = 0; i < a.size(); ++i){
         if(a[i] != r[i]) return a[i] > r[i];
     }
@@ -14,19 +18,11 @@ bool getOper(string &a, string &b, long long r){
     // 앞의 과정을 거쳤으면 두 수는 R의 범위 안에 있다.
     long long aa = stoll(a);
     long long bb = stoll(b);
-
     // R / B >= A인지 검사를 하기 위해 나눈다.
     long long oper = r / bb;
 
-    // 나누어 떨어지지 않는다면 소수부가 존재하니,
-    // R / B의 정수부를 취해 A보다 작으면 Overflow다.
-    if(r % bb){
-        return oper >= aa;
-    }
-
-    // 나누어 떨어질 경우 두 수가 같거나, 혹은
-    // R / B가 큰 경우 두 수의 곰셈은 R의 범위 안에 있다.
-    return oper == aa ? true : oper > aa;
+    // oper가 크거나 같은 경우.
+    return oper >= aa;
 }
 int main(){
     string a, b;
