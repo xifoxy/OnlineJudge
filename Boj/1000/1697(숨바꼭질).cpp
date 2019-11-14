@@ -1,35 +1,45 @@
 #include <bits/stdc++.h>
 using namespace std;
-const int MX = 100001;
-int a[MX], n, m;
-int main() {
-	scanf("%d%d", &n, &m);
-	queue<int> Q;
-	for(int i = 0; i < 100001; ++i) a[i] = MX;
-	a[n] = 1, Q.push(n);
+const int M = 1e5 + 1;
+int dp[M];
+int st, nd;
+int main(){
+    memset(dp, -1, sizeof(dp));
+    cin >> st >> nd;
 
-	if(n > m) printf("%d\n", n - m);
-	else {
-		while(!Q.empty()) {
-			int pos = Q.front(); Q.pop();
-			if(pos * 2 <= MX && a[pos * 2] > a[pos] + 1) {
-				a[pos * 2] = a[pos] + 1;
-				Q.push(pos * 2);
-			}
-			if(pos - 1 >= 0 && a[pos - 1] > a[pos] + 1) {
-				a[pos - 1] = a[pos] + 1;
-				Q.push(pos - 1);
-			}
-			if(pos + 1 <= MX && a[pos + 1] > a[pos] + 1) {
-				a[pos + 1] = a[pos] + 1;
-				Q.push(pos + 1);
-			}
-		}
-		printf("%d\n", a[m] - 1);
-	}
+    queue<int> Q;
+    Q.push(st);
+
+    dp[st] = 1;
+    while(!Q.empty()){
+        int cur = Q.front();
+        Q.pop();
+        
+        if(cur == nd){
+            printf("%d", dp[cur] - 1);
+            break;
+        }
+        
+        int idx = cur * 2;
+        if(idx < M && dp[idx] == -1){
+            dp[idx] = dp[cur] + 1;
+            Q.push(idx);
+        }
+
+        idx = cur - 1;
+        if(idx >= 0 && dp[idx] == -1){
+            dp[idx] = dp[cur] + 1;
+            Q.push(idx);
+        }
+        
+        idx = cur + 1;
+        if(idx < M && dp[idx] == -1){
+            dp[idx] = dp[cur] + 1;
+            Q.push(idx);
+        }
+    }
 }
 
-// ¼³¸í(BFS, DP)
-// ÁÖ¾îÁø ¹®Á¦ ±ÔÄ¢´ë·Î ¸Ş¸ğÀÌÁ¦ÀÌ¼Ç ÇÏ¸é µÈ´Ù.
-// DP¹è¿­À» ÃæºĞÈ÷ Å« ¼ıÀÚ·Î ÃÊ±âÈ­ ÇÑ ´ÙÀ½
-// ÇöÀç ÁÂÇ¥ x->y ·Î °¡´Â ÃÖ¼Ú°ªÀ» °»½ÅÇÑ´Ù.
+// ì„¤ëª…
+// ë³„ê±° ì—†ë‹¤, ìµœë‹¨ê±°ë¦¬ ê°œë…ì´ë‹ˆ ë„ˆë¹„ìš°ì„  íƒìƒ‰ì„ í•˜ë˜,
+// ë²”ìœ„ë¥¼ ë²—ì–´ë‚˜ì§€ ì•Šê²Œ ì˜ˆì™¸ì²˜ë¦¬ë§Œ ì˜í•´ì£¼ë©´ëœë‹¤.

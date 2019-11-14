@@ -1,48 +1,54 @@
 #include <bits/stdc++.h>
 using namespace std;
-int n, k, st, u, v;
-bool visited[1001];
+const int M = 1e3 + 1;
+vector<int> adj[M];
+int n, m, loot;
+bool visit[M];
 
-void dfs(int pos, vector<vector<int>> &v) {
-	visited[pos] = true;
-	cout << pos << ' ';
-	for(auto &p : v[pos]) {
-		if(!visited[p])
-			dfs(p, v);
-	}
-}
-void bfs(int pos, vector<vector<int>> &v) {
-	queue<int> Q; Q.push(pos);
-	cout << pos << ' ';
-	visited[pos] = true;
-	while(!Q.empty()) {
-		int next = Q.front(); Q.pop();
-		for(auto &p : v[next]) {
-			if(!visited[p]) {
-				Q.push(p);
-				visited[p] = true;
-				cout << p << ' ';
-			}
-		}
-	}
-}
-int main() {
-	ios_base::sync_with_stdio(false);
-	cin.tie(nullptr);
-	cin >> n >> k >> st;
-	vector<vector<int>> vec(n + 1);
-	for(int i = 0; i < k; ++i) {
-		cin >> u >> v;
-		vec[u].push_back(v);
-		vec[v].push_back(u);
-	}
-	for(int i = 0; i < n; ++i)
-		sort(vec[i].begin(), vec[i].end());
-	dfs(st, vec); cout << '\n';
-	memset(visited, false, sizeof(visited));
-	bfs(st, vec);
+void dfs(int cur){
+    visit[cur] = true;
+    printf("%d ", cur);
+    for(auto &next : adj[cur])
+        if(!visit[next])
+            dfs(next);
 }
 
-// ¼³¸í(BFS/DFS)
-// ±×·¡ÇÁÀÇ ¼³°è ºÎºÐ°ú visit¹è¿­À» ÀÌ¿ëÇÏ´Â ÀÌÀ¯¸¸ ¾Ë¸é µÈ´Ù.
-// ³ª¸ÓÁö´Â BFS¿Í DFSÀÇ µ¿ÀÛ ¿ø¸®¿¡ ´ëÇÑ ÀÌÇØÀÌ±â ¶§¹®¿¡ »ý·«.
+void bfs(int pos){
+    queue<int> Q;
+    Q.push(pos);
+    
+    visit[pos] = true;
+    while(!Q.empty()){
+        int cur = Q.front();
+        Q.pop();
+        printf("%d ", cur);
+        for(auto &next : adj[cur])
+            if(!visit[next]){
+                Q.push(next);
+                visit[next] = true;
+            }
+    }
+}
+
+int main(){
+    scanf("%d%d%d", &n, &m, &loot);
+
+    for(int i = 0; i < m; ++i){
+        int u, v;
+        scanf("%d%d", &u, &v);
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    for(int i = 1; i <= n; ++i)
+        sort(adj[i].begin(), adj[i].end());
+    
+    
+    dfs(loot);
+    memset(visit, false, sizeof(visit));
+    puts("");
+    bfs(loot);
+}
+
+// ì„¤ëª…
+// ë§í•˜ì§€ ì•Šì•„ë„ ì•Œì•„ìš”~

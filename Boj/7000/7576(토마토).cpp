@@ -1,51 +1,66 @@
 #include <bits/stdc++.h>
 using namespace std;
+
+const int M = 1e3 + 1;
+
 int dx[]{1,-1,0,0};
 int dy[]{0,0,1,-1};
-int farm[1001][1001];
-int n, m, seed, tomato, day;
-struct P { int x, y; };
-queue<P> Q;
-bool safe(int x, int y) { return x >= 0 && y >= 0 && x < m && y < n; }
-bool bfs() {
-	P t;
-	while(!Q.empty()) {
-		t = Q.front(); Q.pop();
-		for(int i = 0; i < 4; ++i) {
-			int nx = dx[i] + t.x;
-			int ny = dy[i] + t.y;
-			if(safe(nx, ny) && !farm[nx][ny]) {
-				farm[nx][ny] = farm[t.x][t.y] + 1;
-				Q.push({nx,ny});
-				day = max(day, farm[nx][ny]);
-				seed--;
-			}
-		}
-	}
-	return seed ? false : true;
+
+int board[M][M];
+
+int n, m, seed;
+
+bool safe(int x, int y){
+    return x >= 0 && y >= 0 && x < n && y < m;
 }
-int main() {
-	ios_base::sync_with_stdio(false);
-	cin.tie(nullptr); cout.tie(nullptr);
-	cin >> n >> m;
-	for(int i = 0; i < m; ++i) {
-		for(int j = 0; j < n; ++j) {
-			cin >> farm[i][j];
-			if(farm[i][j] == 1) {
-				tomato++;
-				Q.push({i,j});
-			}
-			if(farm[i][j] == 0) seed++;
-		}
-	}
-	if(!seed) cout << (tomato ? 0 : -1) << '\n';
-	else {
-		bool ans = bfs();
-		cout << (ans ? day - 1 : -1);
-	}
+queue<int> Q;
+
+int bfs(){
+    int day = 0;
+    while(!Q.empty() && seed){
+        ++day;
+
+        // ë‚ ì§œë¥¼ ê³„ì‚°í•´ì£¼ê¸° ìœ„í•´
+        // íì— ë‹´ê¸´ í† ë§ˆí† ë§Œí¼ íƒìƒ‰ì„ í•œë‹¤.
+        int sz = Q.size();
+        for(int idx = 0; idx < sz; ++idx){
+            int cur = Q.front();
+            Q.pop();
+
+            for(int direction = 0; direction < 4; ++direction){
+                int nx = cur / m + dx[direction];
+                int ny = cur % m + dy[direction];
+                if(safe(nx,ny) && board[nx][ny] == 0){
+                    board[nx][ny] = 1;
+                    Q.push(nx * m + ny);
+                    --seed;
+                }
+            }
+        }
+    }
+
+    // ìƒ‰ì¹ ë†€ì´ë¥¼ ë§ˆì³¤ëŠ”ëŒ€ë„ ì”¨ì•—ì´ ì¡´ì¬í•˜ë©´ -1ì„ ë°˜í™˜í•œë‹¤.
+    return seed ? -1 : day;
 }
 
-//¼³¸í
-//±âÀú¸¸ Àß Ã³¸®ÇÏ¸é ±¸Çö¹®Á¦´Ù.
-//¾¾¾ÑÀÌ ¾øÀ»¶§ Åä¸¶Åä°¡ ÀÖ´À³Ä ¾ø´À³ÄÀÇ ¹®Á¦¿Í
-//¾¾¾ÑÀÌ ³²¾Ò³Ä ¾È³²¾Ò³Ä ¸¸ ±¸ºĞÇÏ¸é µÈ´Ù.
+int main(){
+    scanf("%d%d", &m, &n);
+
+    for(int x = 0; x < n; ++x){
+        for(int y = 0; y < m; ++y){
+            scanf("%d", &board[x][y]);
+            // í† ë§ˆí† ëŠ” íì—
+            if(board[x][y] == 1)
+                Q.push(x * m + y);
+            
+            // ì‹¬ì–´ì§„ ì‹œì•— ì¹´ìš´íŠ¸
+            if(!board[x][y])
+                seed++;
+        }
+    }
+    printf("%d\n", bfs());
+}
+
+// ì„¤ëª…
+// ì‹¬ì–´ë†“ì€ ì¢…ìë¥¼ ë‹¤ í‹”ìš¸ìˆ˜ ìˆëŠ”ì§€ì— ëŒ€í•´ì„œ Flood Fill í•œë‹¤.
+// í† ë§ˆí† ê°€ ì¡´ì¬í•˜ë©´ ì¸ì ‘í•œ ì”¨ì•—ì€ í† ë§ˆí† ê°€ ëœë‹¤.

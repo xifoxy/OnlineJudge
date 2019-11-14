@@ -1,39 +1,58 @@
 #include <bits/stdc++.h>
 using namespace std;
-struct P {
-	int x, y;
+
+struct info{
+    int x, y;
 };
-P pos;
-int d[301][301], tc, n, sx, sy, ex, ey;
-int dx[]{-2,-2,-1,-1,1,1,2,2}, dy[]{-1,1,-2,2,-2,2,-1,1};
-bool safe(int x, int y) {
-	return x >= 0 && y >= 0 && x < n && y < n;
-}
-int bfs() {
-	queue<P> Q; Q.push({sx,sy});
-	memset(d, 0, sizeof(d));
-	d[sx][sy] = 1;
-	while(!Q.empty() && !d[ex][ey]) {
-		pos = Q.front(); Q.pop();
-		for(int i = 0; i < 8; ++i) {
-			int nx = pos.x + dx[i];
-			int ny = pos.y + dy[i];
-			if(safe(nx, ny) && !d[nx][ny]) {
-				Q.push({nx,ny});
-				d[nx][ny] = d[pos.x][pos.y] + 1;
-			}
-		}
-	}
-	return d[ex][ey];
-}
-int main() {
-	scanf("%d", &tc);
-	while(tc--) {
-		scanf("%d", &n);
-		scanf("%d%d%d%d", &sx, &sy, &ex, &ey);
-		printf("%d\n", bfs() - 1);
-	}
+
+const int M = 3e2+1;
+
+int dx[]{-1,-2,-2,-1,1,2,2,1};
+int dy[]{-2,-1,1,2,-2,-1,1,2};
+
+int board[M][M];
+int n, tc;
+bool safe(int x, int y){
+    return x >= 0 && y >= 0 && x < n && y < n;
 }
 
-//¾î·Æ°Ô »ı°¢ÇÒ ÇÊ¿ä ¾ø´Â BFS¹®Á¦´Ù.
-//ÀÌµ¿ÇØ¼­ °ª °»½ÅÇÏ¸é µÈ´Ù.
+int x, y;
+
+int bfs(queue<info> &Q){
+
+    while(!Q.empty()){
+        info t = Q.front();
+        Q.pop();
+
+        if(t.x == x && t.y == y) break;
+
+        // ë‚˜ì´íŠ¸ëŠ” 8ê³³ì„ ì´ë™í•  ìˆ˜ ìˆë‹¤.
+        for(int direction = 0; direction < 8; ++direction){
+            int nx = t.x + dx[direction];
+            int ny = t.y + dy[direction];
+            if(safe(nx, ny) && board[nx][ny] == -1){
+                board[nx][ny] = board[t.x][t.y] + 1;
+                Q.push({nx,ny});
+            }
+        }
+    }
+
+    return board[x][y];
+}
+
+int main(){
+    scanf("%d", &tc);
+    while(tc--){
+        memset(board, -1, sizeof(board));
+        queue<info> Q;
+        scanf("%d%d%d", &n, &x, &y);
+        board[x][y] = 0;
+        Q.push({x,y});
+        scanf("%d%d", &x, &y);
+        printf("%d\n", bfs(Q));
+    }
+}
+
+// ì„¤ëª…
+// ìµœë‹¨ê±°ë¦¬ê°€ ë‹µì´ê¸° ë•Œë¬¸ì— BFSë¥¼ ì´ìš©í•œë‹¤.
+// í˜„ì¬ ë‚˜ì´íŠ¸ì˜ ìœ„ì¹˜ì—ì„œ ë°©ë¬¸ê°€ëŠ¥ í•œ ëª¨ë“ ê³³ì„ Flood Fill í•´ì£¼ë©´ ëœë‹¤.

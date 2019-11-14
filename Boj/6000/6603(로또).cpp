@@ -1,30 +1,36 @@
 #include <bits/stdc++.h>
 using namespace std;
-const int MX = 13;
-int a[MX], n;
-void sol(int pos, int sz, vector<int> &print) {
-	if(print.size() == sz) {
-		for(auto &p : print) {
-			printf("%d ", p);
-		}
-		puts("");
-		return;
-	}
+int a[14];
+int k;
 
-	for(int i = pos; i < n; ++i) {
-		print.push_back(a[i]);
-		sol(i + 1, sz, print);
-		print.pop_back();
-	}
-}
-int main() {
-	while(scanf("%d", &n) && n != 0) {
-		for(int i = 0; i < n; ++i)
-			scanf("%d", &a[i]);
-		vector<int> print;
-		sol(0, 6, print);
-		puts("");
-	}
+vector<int> vec;
+void permutation(int cur){
+    if(vec.size() == 6){
+        for(auto &n : vec)
+            printf("%d ", n);
+        puts("");
+        return;
+    }
+
+    for(int idx = cur; idx < k; ++idx){
+        vec.push_back(a[idx]);
+        permutation(idx + 1);
+        vec.pop_back();
+    }
+
+    return;
 }
 
-//����
+int main(){
+    while(scanf("%d", &k) && k != 0){
+        vec.clear();
+        for(int idx = 0; idx < k; ++idx){
+            scanf("%d", &a[idx]);
+        }
+        permutation(0);
+        puts("");
+    }
+}
+
+// 설명
+// N과 M 시리즈를 풀어보자

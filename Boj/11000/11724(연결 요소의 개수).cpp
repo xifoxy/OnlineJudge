@@ -1,35 +1,32 @@
 #include <bits/stdc++.h>
 using namespace std;
-vector<vector<int>> vec;
-int n, m, u, v, ans;
-bool visited[1001];
-void get_component_cnt(int pos) {
-	visited[pos] = true;
-	for(auto p : vec[pos]) {
-		if(!visited[p])
-			get_component_cnt(p);
-	}
-}
-int main() {
-	cin >> n >> m;
-	vec.resize(n + 1);
-	for(int i = 0; i < m; ++i) {
-		cin >> u >> v;
-		vec[u].push_back(v);
-		vec[v].push_back(u);
-	}
-	for(int i = 1; i <= n; ++i) {
-		if(!visited[i]) {
-			ans++;
-			get_component_cnt(i);
-		}
-	}
-	cout << ans;
+const int M = 1e3 + 1;
+vector<int> adj[M];
+bool visit[M];
+int n, m;
+
+void dfs(int cur){
+    visit[cur] = true;
+    for(auto &next : adj[cur])
+        if(!visit[next])
+            dfs(next);
 }
 
-//¼³¸í
-//ComponentÀÇ °¹¼ö¸¦ ±¸ÇÏ´Â ¹æ¹ıÀº visited ¹è¿­À» ÀÌ¿ëÇÏ¸é µÈ´Ù,
-//Á¤Á¡ÀÇ ¼ö°¡ N ÀÌ¶ó¸é 1~N±îÁö ÀÌ±â ¶§¹®¿¡ 1ºÎÅÍ ¹æ¹®ÇÏÁö ¾ÊÀº Á¤Á¡À» ¹æ¹®ÇØ¼­
-//¹æ¹®ÇÏÁö ¾ÊÀº Á¤Á¡ÀÇ ¿¬°á¿ä¼ÒµéÀ» ¼øÈ¸ÇÏ¸é¼­ ¹æ¹®ÇÏ¸é µÈ´Ù.
-//Å½»öÀº ³Êºñ È¤Àº ±íÀÌ µÑÁß ¾Æ¹«°Å³ª ¼±ÅÃÇØµµ »ó°ü¾ø´Ù.
-//³­ ±¸ÇöÀÌ Âª¾Æ dfs¸¦ ÀÌ¿ëÇß´Ù.
+int main(){
+    scanf("%d%d", &n, &m);
+    for(int idx = 0; idx < m; ++idx){
+        int u, v;
+        scanf("%d%d", &u, &v);
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    int ans = 0;
+    for(int idx = 1; idx <= n; ++idx){
+        if(!visit[idx])
+            dfs(idx), ++ans;
+    }
+    printf("%d\n", ans);
+}
+
+// ë§í•˜ì§€ ì•Šì•„ë„ ì•Œì•„ìš”~

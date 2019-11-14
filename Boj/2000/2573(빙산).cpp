@@ -1,120 +1,91 @@
 #include <bits/stdc++.h>
 using namespace std;
-struct P{
+struct info{
     int x, y;
 };
-const int M = 3e2+1;
-int land[M][M], temp[M][M];
-int dx[]{1,-1,0,0}, dy[]{0,0,1,-1};
-int n, m;
+
+const int M = 301;
+
+int board[M][M];
+int temp[M][M];
 bool visit[M][M];
 
-// ¾ÈÀüÁö¿ª È®ÀÎ
+int dx[]{1,-1,0,0};
+int dy[]{0,0,1,-1};
+
+int n, m;
+
+queue<info> Q;
+
 bool safe(int x, int y){
-    return x >= 0 && y >= 0 && x < n && y < m;
+    return min(x, y) >= 0 && x < n && y < m;
 }
 
-// ºù»êÅ©±â Ä«¿îÆÃ
-int land_divide_check(P temp){
-    queue<P> Q;
-    Q.push(temp);
+// ë¹™ì‚°ì´ ë‘ê°œë¡œ ìª¼ê°œì¡ŒëŠ”ì§€(Component ê²€ì‚¬)
+int dfs(int x, int y){
     int ret = 1;
-    visit[temp.x][temp.y] = true;
-    while(!Q.empty()){
-        P currnet = Q.front();
-        Q.pop();
+    visit[x][y] = true;
 
-        for(int direction = 0; direction < 4; ++direction){
-            int nx = currnet.x + dx[direction];
-            int ny = currnet.y + dy[direction];
-            if(safe(nx,ny) && !visit[nx][ny] && land[nx][ny]){
-                visit[nx][ny] = true;
-                ret++;
-                Q.push({nx,ny});
-            }
+    for(int direction = 0; direction < 4; ++direction){
+        int nx = x + dx[direction];
+        int ny = y + dy[direction];
+        if(board[nx][ny] && !visit[nx][ny]){
+            ret += dfs(nx, ny);
         }
     }
-
     return ret;
 }
 
-int year;
-int bfs(queue<P> &Q){
+int bfs(){
+    int year = 0;
     while(!Q.empty()){
-        // ÇÑ»çÀÌÅ¬ µ¹¶§¸¶´Ù Ã¼Å© ÇØ¾ß ÇÏ±â ¶§¹®¿¡
-        // visit¹è¿­À» ÃÊ±âÈ­ ÇØÁÖ°í, ÇöÀç ½ÃÁ¡ÀÇ land¹è¿­À» temp(prev)¹è¿­¿¡ º¹»çÇÑ´Ù.
+        // í˜„ì¬ì˜ ë¹™ì‚° ì •ë³´ë¥¼ tempë°°ì—´ì— ì €ì¥í•œë‹¤.
+        memcpy(temp, board, sizeof(board));
         memset(visit, false, sizeof(visit));
-        memcpy(temp, land, sizeof(land));
+        int sz = Q.size();
 
-        // ºù»êÀÇ ÁÂÇ¥ ÇÏ³ª·Î flood fillÀ» ÁøÇàÇßÀ»½Ã, Å¥ÀÇ Å©±â¿Í ´Ù¸£´Ù¸é ºù»êÀº ³ª´¶ °ÍÀÌ´Ù.
-        int sz = land_divide_check(Q.front());
-        if(sz != Q.size()) break;
+        // ë¹™ì‚°ì´ ë‘ì¡°ê°ìœ¼ë¡œ ë‚˜ë‰˜ì–´ ì¡ŒëŠ”ì§€ ê²€ì‚¬í•œë‹¤.
+        // ì»´í¬ë„ŒíŠ¸ê°€ ë‘ê°œë¡œ ìª¼ê°œì ¸ ìˆë‹¤ë©´ ë‹µì„ ë°˜í™˜í•œë‹¤.
+        int cnt = dfs(Q.front().x, Q.front().y);
+        if(sz != cnt) return year;
 
-        for(int i = 0; i < sz; ++i){
-            P currnet = Q.front();
+        // í˜„ì¬ íì— ë“¤ì–´ìˆëŠ” ë…¸ë“œìœ¼ ê°œìˆ˜ë§Œí¼ íƒìƒ‰ì œí•œì„ ë‘¬ì„œ ë…„ìˆ˜ë¥¼ ì¹´ìš´íŒ…í•œë‹¤.
+        for(int idx = 0; idx < sz; ++idx){
+            info t = Q.front();
             Q.pop();
 
-            for(int direction = 0; direction < 4; ++direction){
-                int nx = currnet.x + dx[direction];
-                int ny = currnet.y + dy[direction];
-
-                // temp¹è¿­Àº prev¹è¿­ÀÌ´Ù. ÀÌÀü Á¤º¸¸¦ °¡Áö°í °»½ÅÇØ¾ßµÈ´Ù. ¼³¸í ÂüÁ¶
-                if(safe(nx,ny) && temp[nx][ny] == 0 && land[currnet.x][currnet.y]){
-                    land[currnet.x][currnet.y]--;
+            // ë…¹ì´ê¸°
+            for(int direction = 0; direction < 4 && board[t.x][t.y]; ++direction){
+                int nx = t.x + dx[direction];
+                int ny = t.y + dy[direction];
+                if(safe(nx, ny) && temp[nx][ny] == 0){
+                    board[t.x][t.y]--;
                 }
             }
-            // ÀÎÁ¢°ø°£À» Å½»öÇØµµ ºù»êÀÌ »ì¾ÆÀÖÀ¸¸é ´Ù½Ã Å¥¿¡ »ğÀÔ
-            if(land[currnet.x][currnet.y])
-                Q.push(currnet);
-        }
-        year++;
-    }
 
-    // Å¥¿¡ µé¾îÀÖ´Â ºù»ê ÁÂÇ¥°¡ ¾ø´Ù¸é? ºù»êÀº ´Ù ³ì¾Ò±â¿¡ 0À» ¹İÈ¯ÇÏ°í
-    // Å¥¿¡ Á¤º¸°¡ µé¾î ÀÖ´Ù¸é Ä«¿îÆÃÇÑ ½Ã°£À» ¹İÈ¯ÇÑ´Ù.
-    return Q.size() ? year : 0;
+            // ë‹¤ ë…¹ì§€ ì•Šì•˜ìœ¼ë©´ íì— ë°•ì•„ë²„ë¦¬ê¸°
+            if(board[t.x][t.y])
+                Q.push(t);
+        }
+        ++year;
+    }
+    return 0;
 }
 
 int main(){
-    scanf("%d%d",&n,&m);
-
-    queue<P> Q;
+    scanf("%d%d", &n, &m);
     for(int x = 0; x < n; ++x){
         for(int y = 0; y < m; ++y){
-            scanf("%d", &land[x][y]);
-            temp[x][y] = land[x][y];
-            if(land[x][y]){
+            scanf("%d", &board[x][y]);
+            // ì–¼ìŒì´ ì¡´ì¬í•˜ëŠ” ì¢Œí‘œëŠ” ì „ë¶€ë‹¤ íì—
+            if(board[x][y])
                 Q.push({x,y});
-            }
         }
     }
-    printf("%d\n", bfs(Q));
+    printf("%d\n", bfs());
 }
 
-// ¼³¸í(BFS, flood fill)
-// ºù»êÀÇ »ó,ÇÏ,ÁÂ,¿ì·Î ÀÎÁ¢ÇÑ°÷¿¡ ¹°ÀÌ Á¸ÀçÇÑ´Ù¸é? Á¸ÀçÇÏ´Â ¹æÇâ ¼ö ¸¸Å­ ºù»êÀÌ ³ì´Â´Ù.
-// ¹®Á¦¿¡¼­ ¿ä±¸ÇÏ´Â ´äÀº ºù»êÀÌ ³ì´Â Áß, ºù»êÀÌ µÎ Á¶°¢ ÀÌ»óÀ¸·Î ³ª´µ´ÂÁö Ã¼Å©ÇÏ´Â°Í ÀÌ´Ù.
-// ºù»êÀÌ ´Ù ³ìÀ¸¸é 0À» Ãâ·ÂÇØ¾ß ÇÑ´Ù.
-
-// µÎ°¡ÁöÀÇ ÀÛ¾÷ÀÌ ÇÊ¿äÇß´Ù.
-// 1. ºù»êÀÇ Á¶°¢ÀÌ µÎ°³ ÀÌ»óÀ¸·Î ³ª´µ¾ú´ÂÁö?
-// 2. ºù»ê ³ìÀÌ±â
-
-// ¿ì¼± ¼Ö·ç¼ÇÀÇ Å»ÃâÁ¶°ÇÀº ºù»êÀÌ ´Ù ³ì´Â´Ù or ºù»êÀÌ µÎÁ¶°¢ ÀÌ´Ù. ÀÌ±â ¶§¹®¿¡
-// ºù»êÀÇ Á¤º¸°¡ ÇÊ¿äÇÏ±â¿¡ °ªÀ» ÀÔ·Â¹ŞÀ»¶§ ¹è¿­¿¡(temp, land ¹è¿­ÀÌ 2°³ÀÎ ÀÌÀ¯?)¿¡ ÀÔ·Â¹Ş°í, 
-// ¹°ÀÌ ¾Æ´Ñ ºù»êÀÇ ÁÂÇ¥´Â queue¿¡ Ãß°¡ÇÑ´Ù.
-
-// Ã³À½ ÀÔ·Â°ª¿¡¼­ ºù»êÀÌ µÎ°³·Î µé¾î¿Ã ¼ö ÀÖ´Ù´Â°É °¡Á¤ÇØ Å½»ö ½ÃÀÛÁöÁ¡¿¡ ºù»êÀÇ ºĞÇÒ ¿©ºÎ¸¦ Ã¼Å©ÇÑ´Ù.
-// flood fillµÈ ¹è¿­ÀÇ Å©±â¿Í, Å¥¿¡ ´à±ä ºù»êÀÇ ÁÂÇ¥µéÀÇ »çÀÌÁî°¡ °°À¸¸é..
-// ºù»êÀÇ ÀÎÁ¢ÇÑ ºÎºĞµéÀ» Å½»öÇØ°¡¸é¼­ ºù»êÀ» Á¤¸®ÇØÁØ´Ù.
-// ÀÌ ºù»êÀ» ³ìÀÌ´Â ºÎºĞ¿¡¼­ ¹è¿­À» µÎ°³ ·Î ¸¸µç ÀÌÀ¯°¡ ÀÖ´Âµ¥,
-
-// ¹è¿­À» ÇÑ°³·Î ÁøÇàÇÏ°Ô µÇ¸é,
-// ex)
-// 0 0 0 0     0 0 0 0
-// 0 1 5 0 ==> 0 0 5 0
-// 0 0 0 0     0 0 0 0
-// À§¿Í °°Àº »çÅÂ°¡ ¹ß»ıÇÒ ¼ö ÀÖ´Ù. ±×·¡¼­ prev¹è¿­°ú °°Àº °³³äÀ¸·Î ¸¸µç°ÍÀÌ´Ù.
-
-// ºù»êÀ» ³ìÀÏ¶§´Â
-// ÁÖ¾îÁø Input°ªÀÇ Å©±â°¡ ÃÖ´ë 300*300·Î Á¦¹ı ÀÛ±â ¶§¹®¿¡ Å¥¿¡ ³Ö°í »©±â¸¦ ¹İº¹Çß´Ù.
+// ì„¤ëª…
+// ì–¼ìŒì— ì¸ì ‘í•œ ê³³ì— ë¬¼ì´ ì¡´ì¬í•œë‹¤ë©´, ë¬¼ì´ ì¡´ì¬í•˜ëŠ” ì¹¸ì˜ ìˆ˜ë§Œí¼ ë…¹ëŠ”ë‹¤.
+// í•˜ë‚˜ ì£¼ì˜ í•´ì•¼í• ê±´, ë³€í•˜ê¸° ì „ì˜ ìƒíƒœë¥¼ í† ëŒ€ë¡œ ì–¼ìŒì´ ë…¹ê¸° ë•Œë¬¸ì—,
+// Xë…„ ë¹™ì‚°ì„ ê°±ì‹ í• ë•Œ X-1ë…„ì˜ ë¹™ì‚° ì •ë³´ë¥¼ ê°€ì§€ê³  ìˆì–´ì•¼ í•œë‹¤.

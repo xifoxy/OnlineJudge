@@ -1,40 +1,58 @@
-#include <iostream>
-#include <cstring>
+#include <bits/stdc++.h>
 using namespace std;
-int tc, m, n, k, x, y;
-int farm[50][50];
-bool visit[50][50];
-bool safe(int x, int y) { return x >= 0 && y >= 0 && x < m && y < n; }
-void dfs(int x, int y) {
-	if(!safe(x, y)) return;
-	if(visit[x][y] || !farm[x][y]) return;
-	visit[x][y] = true;
-	dfs(x + 1, y);
-	dfs(x - 1, y);
-	dfs(x, y + 1);
-	dfs(x, y - 1);
-}
-int main() {
-	cin >> tc;
-	while(tc--) {
-		cin >> m >> n >> k;
-		memset(farm, 0, sizeof(farm));
-		memset(visit, false, sizeof(visit));
-		for(int i = 0; i < k; ++i) {
-			cin >> x >> y;
-			farm[x][y] = 1;
-		}
-		int cnt = 0;
-		for(int i = 0; i < m; ++i)
-			for(int j = 0; j < n; ++j)
-				if(!visit[i][j] && farm[i][j])
-					dfs(i, j), cnt++;
-		cout << cnt << '\n';
-	}
+
+const int M = 51;
+bool board[M][M];
+int dx[]{1,-1,0,0};
+int dy[]{0,0,1,-1};
+int tc;
+int n, m, k;
+
+bool safe(int x, int y){
+    return x >= 0 && y >= 0 && x < m && y < n;
 }
 
-// ¼³¸í(DFS, BFS)
-// ¹èÃß¹ç¿¡ ÇÊ¿äÇÑ Áö··ÀÌÀÇ ¼ö
-// ±×·¯´Ï±î, ÀÌ°Ç ÄÄÆ÷³ÍÆ®ÀÇ °³¼ö¸¦ ±¸ÇÏ´Â ¹®Á¦°¡ µÈ´Ù.
-// ÁÖ¾îÁø ¹è¿­ÀÇ ¹üÀ§°¡ ÀÛÀ¸´Ï ¹è¿­ ÀüÃ¼¸¦ ¼øÈ¸ÇÏ¸é¼­
-// ¹èÃß°¡ ¹ß°ßµÉ¶§¸¶´Ù ¿¬°á¿ä¼ÒµéÀ» ÀüºÎ´Ù Ã¼Å©ÇÏ¸éµÈ´Ù(visit¹è¿­ È°¿ë)
+void dfs(int x, int y){
+    // ìƒ‰ì¹ í’€ê¸°
+    board[x][y] = false;
+
+    for(int direction = 0; direction < 4; ++direction){
+        int nx = x + dx[direction];
+        int ny = y + dy[direction];
+
+        // ì‚¬ë°©íƒìƒ‰ì„ í†µí•´ ì—°ê²°ëœ ë…¸ë“œë¥¼ ì°¾ìœ¼ë©´ ë°©ë¬¸í•œë‹¤.
+        if(safe(nx, ny) && board[nx][ny])
+            dfs(nx, ny);
+    }
+}
+int main(){
+    scanf("%d", &tc);
+
+    while(tc--){
+        memset(board, false, sizeof(board));
+        scanf("%d%d%d", &m, &n, &k);
+
+        // M*N ë°°ì—´ì— Kê°œì˜ ë…¸ë“œê°€ ì£¼ì–´ì§„ë‹¤. ë…¸ë“œì— ìƒ‰ì¹ í•˜ê¸°.
+        for(int idx = 0; idx < k; ++idx){
+            int x, y;
+            scanf("%d%d", &x, &y);
+            board[x][y] = true;
+        }
+        int ans = 0;
+
+        // ìƒ‰ì¹ ë˜ì–´ ìžˆëŠ” ë…¸ë“œë¥¼ ë§Œë‚˜ë©´ Componentì˜ ê°œìˆ˜ë¥¼ ì¦ê°€ ì‹œì¼œì£¼ê³ ,
+        // ì—°ê²°ëœ ìš”ì†Œë“¤ì„ ì „ë¶€ í™•ì¸í•œë‹¤.
+        for(int x = 0; x < m; ++x){
+            for(int y = 0; y < n; ++y){
+                if(board[x][y])
+                    dfs(x,y), ++ans;
+            }
+        }
+        printf("%d\n", ans);
+    }
+}
+
+// ì„¤ëª…
+// Componentì˜ ê°œìˆ˜ê°€ ë‹µì¸, ì¦‰ ì—°ê²°ìš”ì†Œì˜ ê°œìˆ˜ë¥¼ ì„¸ëŠ” ë¬¸ì œì´ë‹¤.
+// íŠ¹ì • ë…¸ë“œì— ìƒ,í•˜,ì¢Œ,ìš° ì— ì—°ê²°ë˜ì–´ ìžˆëŠ” ë…¸ë“œê°€ ìžˆìœ¼ë©´,
+// í•˜ë‚˜ì˜ Componentì— ì†í•´ ìžˆê²Œ ëœë‹¤.

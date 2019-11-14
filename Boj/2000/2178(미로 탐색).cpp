@@ -1,45 +1,44 @@
 #include <bits/stdc++.h>
 using namespace std;
+const int M = 1e2 + 1;
+char board[M][M];
 int dx[]{1,-1,0,0};
 int dy[]{0,0,1,-1};
-int mi[101][101];
-bool visit[101][101];
-int n, m, cnt = 1;
-struct P { int x, y; };
-queue<P> Q;
-bool safe(int x, int y) { return x >= 0 && y >= 0 && x < n && y < m; }
-void bfs() {
-	P t; Q.push({0,0});
-	for(; ; ++cnt) {
-		int sz = Q.size();
-		for(int i = 0; i < sz; ++i) {
-			t = Q.front(); Q.pop();
-			for(int i = 0; i < 4; ++i) {
-				int nx = dx[i] + t.x;
-				int ny = dy[i] + t.y;
-				if(safe(nx, ny) && mi[nx][ny] && !visit[nx][ny]) {
-					if(nx == n - 1 && ny == m - 1) {
-						printf("%d\n", cnt + 1);
-						return;
-					}
-					visit[nx][ny] = true;
-					Q.push({nx,ny});
-				}
-			}
-		}
-	}
+int dp[M*M];
+int n, m;
+int safe(int x, int y){
+    return x >= 0 && y >= 0 && x < n && y < m;
 }
-int main() {
-	ios_base::sync_with_stdio(false);
-	cin.tie(nullptr); cout.tie(nullptr);
-	scanf("%d%d", &n, &m);
-	for(int i = 0; i < n; ++i) {
-		for(int j = 0; j < m; ++j) {
-			scanf("%1d", &mi[i][j]);
-		}
-	}
-	bfs();
+int bfs(){
+    queue<int> Q;
+    Q.push(0);
+    dp[0] = 0;
+    while(!Q.empty()){
+        int cur = Q.front();
+        Q.pop();
+        
+        for(int direction = 0; direction < 4; ++direction){
+            int nx = cur / m + dx[direction];
+            int ny = cur % m + dy[direction];
+            int idx = nx * m + ny;
+            if(safe(nx, ny) && dp[idx] == -1 && board[nx][ny] == '1'){
+                dp[idx] = dp[cur] + 1;
+                Q.push(idx);
+            }
+        }
+    }
+    return dp[n * m - 1] + 1;
+}
+int main(){
+    memset(dp, -1, sizeof(dp));
+    cin >> n >> m;
+
+    for(int x = 0; x < n; ++x){
+        cin >> board[x];
+    }
+
+    cout << bfs() << '\n';
 }
 
-// ¼³¸í(BFS)
-// ±ÍÂú¾Æ¼­ ±×³É »ý°¢³ª´Â´ë·Î ÀÛ¼ºÇß´Ù.
+// ì„¤ëª…
+// ìµœë‹¨ê±°ë¦¬ë¥¼ êµ¬í•´ì•¼ í•˜ê¸° ë•Œë¬¸ì— BFSë¥¼ ì´ìš©í•´ì•¼í•œë‹¤.

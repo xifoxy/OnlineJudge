@@ -1,45 +1,50 @@
 #include <bits/stdc++.h>
 using namespace std;
-int d[25][25], n;
-bool vsit[25][25];
-int dx[]{1,-1,0,0}, dy[]{0,0,1,-1};
-bool safe(int x, int y) {
-	return x >= 0 && y >= 0 && x < n && y < n;
-}
-int dfs(int x, int y) {
-	int c = 0;
-	if(!safe(x, y) || vsit[x][y] || !d[x][y]) return 0;
-	vsit[x][y] = true;
-	c++;
-	c += dfs(x + 1, y);
-	c += dfs(x - 1, y);
-	c += dfs(x, y + 1);
-	c += dfs(x, y - 1);
-	return c;
-}
-int main() {
-	scanf("%d", &n);
-	for(int i = 0; i < n; ++i)
-		for(int j = 0; j < n; ++j)
-			scanf("%1d", &d[i][j]);
 
-	vector<int> vec;
-	int cnt = 0;
-	for(int i = 0; i < n; ++i) {
-		for(int j = 0; j < n; ++j) {
-			if(d[i][j] && !vsit[i][j]) {
-				vec.push_back(dfs(i, j));
-				cnt++;
-			}
-		}
-	}
-	sort(vec.begin(), vec.end());
-	printf("%d\n", cnt);
-	for(int i = 0; i < vec.size(); ++i) {
-		printf("%d\n", vec[i]);
-	}
+const int M = 26;
+int board[M*M];
+int dp[M*M];
+int dx[]{1,-1,0,0};
+int dy[]{0,0,1,-1};
+int n;
+
+bool safe(int x, int y){
+    return min(x, y) >= 0 && max(x, y) < n;
 }
 
-// ¼³¸í(DFS, BFS, Flood Fill)
-// ComponentÀÇ °¹¼ö¸¦ ¼¼´Â ¹®Á¦ÀÌ´Ù.
-// °¡Àå ±âÃÊÀûÀÎ ¹®Á¦ÀÌ´Ï °³³ä ¼÷ÁöÇÏ°í Ç®¾îº¸¸é µÇ°Ú´Ù.
+int dfs(int cur){
+    board[cur] = 0;
+    int ret = 1;
+    for(int direction = 0; direction < 4; ++direction){
+        int nx = dx[direction] + cur / n;
+        int ny = dy[direction] + cur % n;
+        int idx = nx * n + ny;
+        if(safe(nx,ny) && board[idx])
+            ret += dfs(idx);
+    }
+    return ret;
+}
+
+int main(){
+    scanf("%d", &n);
+    for(int x = 0; x < n; ++x)
+        for(int y = 0; y < n; ++y)
+            scanf("%1d", &board[x * n + y]);
+    
+    
+    int idx = 1;
+    for(int x = 0; x < n; ++x){
+        for(int y = 0; y < n; ++y){
+            if(board[x * n + y]){
+                dp[idx++] = dfs(x * n + y);
+            }
+        }
+    }
+    printf("%d\n", idx - 1);
+    sort(dp, dp + idx);
+    for(int i = 1; i < idx; ++i)
+        printf("%d\n", dp[i]);
+}
+
+// ì„¤ëª…
+// Componentì˜ í¬ê¸°ì™€ ê°œìˆ˜ë¥¼ ì„¸ë©´ ëœë‹¤.

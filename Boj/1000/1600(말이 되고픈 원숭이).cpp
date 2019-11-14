@@ -1,70 +1,75 @@
 #include <bits/stdc++.h>
 using namespace std;
-struct info {
-	int x, y;
-	int jump;
+
+struct info{
+    int x, y, cnt;
 };
-int board[200][200];
-int dp[200][200][31];
 
-// ¿ø¼şÀÌ
-int dx[]{1,-1,0,0}, dy[]{0,0,1,-1};
+const int M = 2e2+1;
 
-// ¸»Àº ÃÑ 8°÷À¸·Î ¶Û ¼ö ÀÖ´Ù.
-int jx[]{-1,-2,-2,-1,1,2,2,1};
-int jy[]{-2,-1,1,2,-2,-1,1,2};
-int k, w, h;
+int ddx[]{-1,-2,-2,-1,1,2,2,1};
+int ddy[]{-2,-1,1,2,-2,-1,1,2};
+int dx[]{1,-1,0,0};
+int dy[]{0,0,1,-1};
 
-bool safe(int x, int y) {
-	return x >= 0 && y >= 0 && x < h && y < w && !board[x][y];
-}
-int main() {
-	scanf("%d%d%d", &k, &w, &h);
-
-	for(int x = 0; x < h; ++x) {
-		for(int y = 0; y < w; ++y) {
-			scanf("%d", &board[x][y]);
-		}
-	}
-
-	queue<info> Q;
-	Q.push({0,0,k});
-	dp[0][0][k] = 1;
-
-	int ans = 0;
-	while(!Q.empty()) {
-		info cur = Q.front();
-		Q.pop();
-
-		if(cur.x == h - 1 && cur.y == w - 1) {
-            // BFSÆ¯¼º»ó µµÂø½Ã ¹Ù·Î ´äÀ» Ãâ·ÂÇÏ¸é µÈ´Ù.
-			ans = dp[cur.x][cur.y][cur.jump];
-			break;
-		}
-
-		if(cur.jump) {
-            // Á¡ÇÁ°¡ °¡´ÉÇÒ¶§
-			for(int direction = 0; direction < 8; ++direction) {
-				int nx = cur.x + jx[direction];
-				int ny = cur.y + jy[direction];
-				if(safe(nx, ny) && !dp[nx][ny][cur.jump - 1]) {
-					dp[nx][ny][cur.jump - 1] = dp[cur.x][cur.y][cur.jump] + 1;
-					Q.push({nx,ny,cur.jump - 1});
-				}
-			}
-		}
-		for(int direction = 0; direction < 4; ++direction) {
-			int nx = cur.x + dx[direction];
-			int ny = cur.y + dy[direction];
-			if(safe(nx, ny) && !dp[nx][ny][cur.jump]) {
-				dp[nx][ny][cur.jump] = dp[cur.x][cur.y][cur.jump] + 1;
-				Q.push({nx,ny,cur.jump});
-			}
-		}
-	}
-	printf("%d\n", ans == 0 ? -1 : ans - 1);
+int board[M][M];
+int dp[M][M][31];
+int w, h, jump;
+bool safe(int x, int y){
+    return min(x,y) >= 0 && x < h && y < w && !board[x][y];
 }
 
-// ¼³¸í(BFS)
-// ÀÌ¹®Á¦´Â ¾î·Æ±âº¸´Ü Â¥Áõ³ª´Â ¹®Á¦´Ù. ¸¶Ä¡ Ä«Ä«¿À ÄÚÅ×¸¦ º¸´ÂµíÇÑ ±âºĞÀÌ´Ù.
-// 2D visit ¹è¿­ÀÌ ÇÊ¿äÇÏ´Ù. Á¡ÇÁ¸¦ ÇßÀ»¶§ ÀÌµ¿ÇÑ°÷À» Ã¼Å©ÇØÁà¾ß ÇÏ±â ¶§¹®ÀÌ´Ù.
+queue<info> Q;
+int bfs(){
+    Q.push({0,0,0});
+    dp[0][0][0] = 0;
+
+    while(!Q.empty()){
+        info t = Q.front();
+        Q.pop();
+
+        if(t.x == h - 1 && t.y == w - 1)
+            return dp[t.x][t.y][t.cnt];
+
+        // ì í”„ í• ìˆ˜ ìˆëŠ” íšŸìˆ˜ê°€ ì¡´ì¬í•˜ê³ ,
+        // ì í”„ í•  ìˆ˜ ìˆìœ¼ë©´ ì í”„í•œë‹¤.
+        for(int direction = 0; direction < 8 && t.cnt < jump; ++direction){
+            int nx = t.x + ddx[direction];
+            int ny = t.y + ddy[direction];
+            if(safe(nx, ny) && dp[nx][ny][t.cnt + 1] == -1 && !board[nx][ny]){
+                dp[nx][ny][t.cnt + 1] = dp[t.x][t.y][t.cnt] + 1;
+                Q.push({nx, ny, t.cnt + 1});
+            }
+        }
+        
+        // ì‚¬ë°©íƒìƒ‰
+        for(int direction = 0; direction < 4; ++direction){
+            int nx = t.x + dx[direction];
+            int ny = t.y + dy[direction];
+            if(safe(nx, ny) && dp[nx][ny][t.cnt] == -1 && !board[nx][ny]){
+                Q.push({nx, ny, t.cnt});
+                dp[nx][ny][t.cnt] = dp[t.x][t.y][t.cnt] + 1;
+            }
+        }
+
+    }
+
+    return -1;
+}
+
+int main(){
+    scanf("%d%d%d", &jump, &w, &h);
+    for(int x = 0; x < h; ++x){
+        for(int y = 0; y < w; ++y){
+            scanf("%d", &board[x][y]);
+        }
+    }
+    memset(dp, -1, sizeof(dp));
+    printf("%d\n", bfs());
+}
+
+// ì„¤ëª…
+// ìµœë‹¨ê±°ë¦¬ë¼ëŠ” ê°œë…ì´ ìˆê¸° ë•Œë¬¸ì— ë„ˆë¹„ ìš°ì„  íƒìƒ‰ìœ¼ë¡œ í’€ì–´ì•¼ í•˜ëŠ” ë¬¸ì œë‹¤.
+// í•˜ë‚˜ ë” í•„ìš”í•œ ê²ƒì€ ì‚¬ë°© ìœ¼ë¡œ ì›€ì§ì´ëŠ” ê²ƒì„ ì œí•˜ê³ , ì²´ìŠ¤ì— ë‚˜ì˜¤ëŠ” 
+// ë‚˜ì´íŠ¸ë§Œí¼ ì´ë™í•  ìˆ˜ ìˆëŠ” íšŸìˆ˜ê°€ ì£¼ì–´ì§„ë‹¤.
+// ê·¸ë ‡ê²Œ ë•Œë¬¸ì— 3ì°¨ì› ë°°ì—´ì— ë©”ëª¨ë¥¼ í•  í•„ìš”ê°€ ìˆë‹¤.
